@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
 
       <aside
         className={clsx(
-          "fixed top-0 bottom-0 left-0 w-56 bg-white border-r z-50 transform transition-transform duration-200",
+          "fixed top-0 bottom-0 left-0 w-56 bg-white border-r border-gray-200 z-50 transform transition-transform duration-200",
           "lg:translate-x-0 lg:z-30",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
