@@ -6,13 +6,25 @@ export interface OrdersResponse {
   pages: number;
 }
 
+export interface LineItem {
+  price: string;
+  title: string;
+  quantity: number;
+  product_id: number;
+}
+
+export interface ConfigurationData {
+  line_items?: LineItem[];
+  [key: string]: unknown;
+}
+
 export interface OrderItem {
   id: string;
   external_ref: string;
   channel: string;
   state: string;
   configuration_id: string;
-  configuration_data: Record<string, unknown>;
+  configuration_data: ConfigurationData;
   customer_email: string;
   customer_name: string;
   pipeline_value_pence: number;
@@ -45,10 +57,10 @@ export interface OrderAuditItem {
   actor_type: string;
   actor_id: string;
   event_type: string;
-  from_state: string;
-  to_state: string;
-  payload: Record<string, unknown>;
-  notes: string;
+  from_state: string | null;
+  to_state: string | null;
+  payload: Record<string, unknown> | null;
+  notes: string | null;
   created_at: string;
 }
 
@@ -66,4 +78,57 @@ export interface RejectOrderPayload {
 
 export interface ReleaseOrderPayload {
   notes: string;
+}
+
+export interface AuditEntry {
+  id: number;
+  orderId: string;
+  actorType: string;
+  actorId: string;
+  eventType: string;
+  fromState: string | null;
+  toState: string | null;
+  notes: string | null;
+  createdAt: string;
+}
+
+export type ActionType = "APPROVE" | "REJECT" | "CANCEL" | null;
+
+export const ORDER_ACTIONS = {
+  APPROVE: "APPROVE",
+  REJECT: "REJECT",
+  CANCEL: "CANCEL",
+};
+
+export interface PipelineState {
+  state: string;
+  count: number;
+  totalValuePence: number;
+  totalValue: number;
+}
+
+export interface PipelineSummary {
+  states: PipelineState[];
+  totalValuePence: number;
+  totalValue: number;
+  totalValueDisplay: string;
+}
+
+export interface PipelineStateResponse {
+  state: string;
+  count: number;
+  total_value_pence: string;
+}
+
+export interface PipelineSummaryResponse {
+  states: PipelineStateResponse[];
+  total_value_pence: string;
+  total_value_display: string;
+}
+
+export interface BomItem {
+  product_id: number;
+  title: string;
+  quantity: number;
+  price: string;
 }

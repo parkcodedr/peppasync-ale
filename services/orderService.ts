@@ -32,7 +32,7 @@ export const getOrderAuditLog = async ({
   page,
   page_size,
 }: {
-  orderId: string;
+  orderId?: string;
   page?: number;
   page_size?: number;
 }) => {
@@ -79,4 +79,21 @@ export const validateOrderTriggers = async (orderId: string) => {
     `/orders/${orderId}/validate-triggers`,
   );
   return data;
+};
+
+export const getPipelineSummary = async () => {
+  const { data } = await api.get("/dashboard/pipeline-summary");
+  return data;
+};
+
+export const exportOrdersCsv = async () => {
+  const response = await api.get("/dashboard/export-csv", {
+    responseType: "blob",
+  });
+
+
+  return {
+    blob: response.data,
+    headers: response.headers,
+  };
 };

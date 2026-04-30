@@ -1,10 +1,4 @@
-import { ReactNode } from "react";
-
-interface BomItem {
-  itemNo: string;
-  description: string;
-  qty: number;
-}
+import { BomItem } from "@/types/order";
 
 export default function BomTable({ bom }: { bom: BomItem[] }) {
   return (
@@ -15,15 +9,20 @@ export default function BomTable({ bom }: { bom: BomItem[] }) {
             <th className="px-3 py-2 text-[10px] text-left">Item No.</th>
             <th className="px-3 py-2 text-[10px] text-left">Description</th>
             <th className="px-3 py-2 text-center text-[10px]">Qty</th>
+            <th className="px-3 py-2 text-center text-[10px]">Price</th>
           </tr>
         </thead>
 
         <tbody>
-          {bom.map((item, i) => (
-            <tr key={i} className="border-b border-gray-200 last:border-b-0">
-              <td className="px-3 py-2 font-mono">{item.itemNo}</td>
-              <td className="px-3 py-2">{item.description}</td>
-              <td className="px-3 py-2 text-center">{item.qty}</td>
+          {bom.map((item) => (
+            <tr
+              key={item.product_id}
+              className="border-b border-gray-200 last:border-b-0"
+            >
+              <td className="px-3 py-2 font-mono">#{item.product_id}</td>
+              <td className="px-3 py-2">{item.title}</td>
+              <td className="px-3 py-2 text-center">{item.quantity}</td>
+              <td className="px-3 py-2 text-center">{item.price}</td>
             </tr>
           ))}
         </tbody>

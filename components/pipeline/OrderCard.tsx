@@ -17,23 +17,22 @@ export default function OrderCard({ order, onClick, clickable }: Props) {
           : "cursor-default"
       }`}
     >
-     
       <div className="flex justify-between mb-2.5">
-        <span className="font-mono text-[13px] font-semibold">#{order.id}</span>
+        <p className="font-mono text-[13px] font-semibold">
+          #{order?.shopify_order_id}
+        </p>
 
-        <span className="text-[10px] bg-slate-50 px-1.5 py-0.5 rounded border border-gray-200">
+        <p className="text-[10px] h-max flex flex-col justify-center bg-slate-50 px-1.5 py-0.5 rounded border border-gray-200 shrink-0">
           Time in state {order.ageHours}h
-        </span>
+        </p>
       </div>
 
-      
       <p className="text-[13px] font-medium truncate">{order.customer}</p>
 
       <p className="text-sm font-semibold mb-3">
         £{order.value.toLocaleString()}
       </p>
 
-     
       <div className="flex justify-between pt-2.5 border-t border-gray-200">
         <StatusPill status={order.status} />
 

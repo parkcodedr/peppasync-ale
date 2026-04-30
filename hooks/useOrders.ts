@@ -8,7 +8,12 @@ import {
   releaseOrder,
   rejectOrder,
   approveOrder,
+  getPipelineSummary,
+  exportOrdersCsv,
 } from "@/services/orderService";
+import { PipelineSummary } from "@/types/order";
+import { mapPipelineSummary } from "@/lib/mapper/orderMapper";
+import { getFilenameFromDisposition } from "@/lib/file";
 
 interface UseOrdersParams {
   state?: string;
@@ -36,7 +41,7 @@ export const useOrderAuditLog = ({
   page,
   page_size,
 }: {
-  orderId: string;
+  orderId?: string;
   page?: number;
   page_size?: number;
 }) => {
@@ -107,5 +112,42 @@ export const useValidateOrderTriggers = (orderId: string) => {
     queryKey: ["order-triggers", orderId],
     queryFn: () => validateOrderTriggers(orderId),
     enabled: !!orderId,
+  });
+};
+
+export const usePipelineSummary = () => {
+  return useQuery<PipelineSummary>({
+    queryKey: ["pipeline-summary"],
+    queryFn: async () => {
+      const res = await getPipelineSummary();
+      return mapPipelineSummary(res);
+    },
+  });
+};
+
+export const useExportOrdersCsv = () => {
+  return useMutation({
+    mutationFn: exportOrdersCsv,
+
+    onSuccess: ({ blob, headers }) => {
+      const url = window.URL.createObjectURL(blob);
+      console.log({headers});
+      
+
+      const disposition = headers["content-disposition"];
+      const filename =
+        getFilenameFromDisposition(disposition) ??
+        `orders-${new Date().toISOString().split("T")[0]}.csv`;
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename);
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      window.URL.revokeObjectURL(url);
+    },
   });
 };
