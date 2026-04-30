@@ -2,6 +2,7 @@ type AxiosErrorResponse = {
   data?: {
     message?: string;
     errors?: string[];
+    detail?: string;
   };
 };
 
@@ -14,13 +15,19 @@ type AxiosErrorLike = {
 
 export function getErrorMessage(
   error: unknown,
-  fallback = "Something went wrong"
+  fallback = "Something went wrong",
 ): string {
   if (typeof error === "object" && error !== null) {
     const err = error as AxiosErrorLike;
 
     if (err.response?.data?.message) {
       return err.response.data.message;
+    }
+
+    if (err.response?.data?.detail) {
+      console.log({det:err.response.data.detail});
+      
+      return err.response.data.detail;
     }
 
     if (err.response?.data?.errors && err.response.data.errors.length > 0) {
