@@ -6,8 +6,8 @@ import {
 } from "@/types/user";
 
 export const fetchUserProfile = async (): Promise<User> => {
-  const { data } = await api.get<{ success: boolean; user: User }>("/users/me");
-  return data.user;
+  const { data } = await api.get<User>("/users/me");
+  return data;
 };
 
 export const updateProfile = async (data: UpdateProfilePayload) => {

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRegister } from "@/hooks/useAuth";
-import { setAuthToken } from "@/lib/utils";
+import { setAuthToken, setRefreshToken } from "@/lib/utils";
 import { getErrorMessage } from "@/lib/error";
 import Spinner from "@/components/shared/Spinner";
 
@@ -51,6 +51,7 @@ export default function SignUpForm() {
     try {
       const res = await registerMutation.mutateAsync(data);
       setAuthToken(res.tokens?.access_token);
+      setRefreshToken(res?.tokens?.refresh_token);
       router.push("/");
     } catch (err: unknown) {
       console.error("Signup failed:", err);

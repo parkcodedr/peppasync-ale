@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 import { useLogin } from "@/hooks/useAuth";
-import { setAuthToken, setRole } from "@/lib/utils";
+import { setAuthToken, setRefreshToken, setRole } from "@/lib/utils";
 import { getErrorMessage } from "@/lib/error";
 import Spinner from "@/components/shared/Spinner";
 
@@ -34,21 +34,22 @@ export default function SigninForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const res = await loginMutation.mutateAsync(data);
-      setUser(res.user);
       setAuthToken(res.access_token);
-      if (res.user.role) {
-        setRole(res.user.role);
-      }
-
+      setRefreshToken(res?.refresh_token);
       router.push("/");
     } catch (err: unknown) {
-      console.error("Login failed:", err);
+      const errorMessage = getErrorMessage(err);
+      console.log("Login failed:", errorMessage);
     }
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="space-y-4"
+        autoComplete="off"
+      >
         <h1 className="text-2xl lg:text-4xl font-extrabold text-black">
           Login
         </h1>

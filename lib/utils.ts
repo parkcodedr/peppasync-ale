@@ -9,7 +9,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
 export function mapOrderStatus(
   status: string,
 ): "success" | "pending" | "failed" | "default" | "completed" {
@@ -103,13 +102,11 @@ export const clearAuth = (): void => {
   removeRole();
 };
 
-
 export function formatDateTime(dateString: string | null): string {
   if (!dateString) return "-";
   const date = new Date(dateString);
   return format(date, "dd-MM-yyyy, h:mm a");
 }
-
 
 export async function copyToClipboard(text: string) {
   try {
@@ -128,4 +125,39 @@ export function formatDateForApi(date: Date | undefined) {
   return `${y}-${m}-${d}`;
 }
 
+export const getAgeHours = (date: string) => {
+  const created = new Date(date).getTime();
+  const now = Date.now();
+  return Math.floor((now - created) / (1000 * 60 * 60));
+};
+export const formatStateLabel = (state: string) =>
+  state
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
+export const getStateColor = (state: string) => {
+  switch (state) {
+    case "AWAITING_FINANCE":
+      return "bg-amber-500";
+    case "AWAITING_OPS":
+      return "bg-indigo-500";
+    case "RELEASED_TO_ERP":
+      return "bg-emerald-500";
+    case "CANCELLED":
+      return "bg-red-500";
+    default:
+      return "bg-gray-400";
+  }
+};
+
+export const getInitials = (fullName: string): string => {
+  if (!fullName) return "";
+
+  return fullName
+    .trim()
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+};

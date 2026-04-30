@@ -12,6 +12,7 @@ import {
 } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
 import { AuthResponse } from "@/types/auth";
+import { AUTH_ERROR } from "@/constants";
 
 const api: AxiosInstance = axios.create({
   baseURL:
@@ -44,13 +45,27 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 api.interceptors.response.use(
   (res) => res,
-  async (error: AxiosError<{ message?: string }>) => {
+  async (error: AxiosError<{ message?: string; detail?: string }>) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
-    console.log({ error });
+    
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const status = error.response?.status;
+    const errorMessage = error.response?.data?.detail;
+
+    const isAuthRoute = originalRequest.url?.includes("/auth");
+
+    const isTokenExpired =
+      errorMessage === AUTH_ERROR.UNAUTHORIZE_MESSAGE ||
+      errorMessage === AUTH_ERROR.TOKEN_EXPIRED;
+
+    if (
+      status === 401 &&
+      !originalRequest._retry &&
+      !isAuthRoute &&
+      isTokenExpired
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -74,9 +89,9 @@ api.interceptors.response.use(
           { refresh_token: refreshToken },
         );
 
-        const newAccessToken = data.access_token;
+        const newAccessToken = data?.access_token;
         setAuthToken(newAccessToken);
-        setRefreshToken(data.refresh_token);
+        setRefreshToken(data?.refresh_token);
 
         api.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
         processQueue(null, newAccessToken);
@@ -96,6 +111,8 @@ api.interceptors.response.use(
 
     if (error.response?.data?.message) {
       message = error.response.data.message;
+    } else if (error.response?.data?.detail) {
+      message = error.response.data.detail;
     } else if (error.response?.status === 400) {
       message = "Invalid request. Please check your input.";
     } else if (error.response?.status === 403) {
