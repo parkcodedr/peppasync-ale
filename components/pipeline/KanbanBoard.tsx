@@ -11,7 +11,6 @@ import { OrderCardSkeleton } from "./OrderCardSkeleton";
 
 export default function KanbanBoard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-
   const { data, isLoading, error, refetch } = useOrders({
     page: 1,
     page_size: 50,
@@ -47,10 +46,7 @@ export default function KanbanBoard() {
   const getColumnOrders = (state: string) =>
     orders.filter((o) => o.status === state);
 
-  const handleApprove = (orderId: string) => {
-    console.log("Approve order:", orderId);
-    setSelectedOrder(null);
-  };
+ 
 
   if (isLoading) {
     return (

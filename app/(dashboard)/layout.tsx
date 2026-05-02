@@ -4,7 +4,6 @@ import { useState } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import TopNavbar from "@/components/dashboard/TopNavbar";
 import AppLoader from "@/components/shared/AppLoader";
-import { useUserStore } from "@/store/useUserStore";
 import { useUserProfile } from "@/hooks/useUser";
 import ErrorPage from "@/components/shared/ErrorPage";
 

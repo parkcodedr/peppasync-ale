@@ -1,9 +1,9 @@
-import { Layers } from "lucide-react";
+import { Layers, LucideIcon } from "lucide-react";
 
 export interface SidebarItem {
   label: string;
   href: string;
-  icon: any;
+  icon: LucideIcon;
 }
 
 export const sidebarItems: SidebarItem[] = [

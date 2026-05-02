@@ -8,9 +8,8 @@ import { PasswordField } from "@/components/ui/PasswordField";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/useUserStore";
 import { useLogin } from "@/hooks/useAuth";
-import { setAuthToken, setRefreshToken, setRole } from "@/lib/utils";
+import { setAuthToken, setRefreshToken } from "@/lib/utils";
 import { getErrorMessage } from "@/lib/error";
 import Spinner from "@/components/shared/Spinner";
 
@@ -23,7 +22,6 @@ type FormValues = z.infer<typeof schema>;
 
 export default function SigninForm() {
   const router = useRouter();
-  const setUser = useUserStore((store) => store.setUser);
   const loginMutation = useLogin();
 
   const methods = useForm<FormValues>({

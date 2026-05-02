@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Lock, RotateCcw, ExternalLink } from "lucide-react";
+import { X,  ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import StatusPill from "./StatusPill";
 import BomTable from "./BomTable";
