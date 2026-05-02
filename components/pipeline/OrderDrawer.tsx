@@ -21,6 +21,7 @@ import ConfirmationModal from "../modal/ConfirmationModal";
 import ApproveNotesModal from "../modal/ApproveNotesModal";
 import { getErrorMessage } from "@/lib/error";
 import { useToast } from "../ui/Toast";
+import TriggerActions from "./TriggerActions";
 
 interface Props {
   order: Order | null;
@@ -201,25 +202,11 @@ export default function OrderDrawer({ order, onClose }: Props) {
                   )}
                 </Section>
               </div>
-
-              <div className="px-5 py-4 border-t-2 border-gray-200 bg-white space-y-2">
-                <button
-                  onClick={() =>
-                    openAction(ORDER_ACTIONS.APPROVE as ActionType)
-                  }
-                  className="w-full cursor-pointer h-10 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-[13px] font-semibold rounded-md flex items-center justify-center gap-2"
-                >
-                  <Lock className="h-3.5 w-3.5" />
-                  Approve & Trigger Design Freeze
-                </button>
-
-                <button
-                  onClick={() => openAction(ORDER_ACTIONS.REJECT as ActionType)}
-                  className="w-full cursor-pointer h-9 text-slate-500 hover:text-slate-800 disabled:opacity-60 text-[13px] font-medium flex items-center justify-center gap-1.5"
-                >
-                  <RotateCcw className="h-3.5 w-3.5" />
-                  Reject / Revision
-                </button>
+              <div className="px-5">
+                <TriggerActions
+                  orderId={order?.id}
+                  onAction={(action) => openAction(action as ActionType)}
+                />
               </div>
             </motion.div>
           </>

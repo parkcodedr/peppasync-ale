@@ -7,6 +7,7 @@ import {
   ReleaseOrderPayload,
   RejectOrderPayload,
   ApproveOrderPayload,
+  ValidTriggersResponse,
 } from "@/types/order";
 
 interface GetOrdersParams {
@@ -91,9 +92,16 @@ export const exportOrdersCsv = async () => {
     responseType: "blob",
   });
 
-
   return {
     blob: response.data,
     headers: response.headers,
   };
+};
+
+export const getValidTriggers = async (
+  orderId: string,
+): Promise<ValidTriggersResponse> => {
+  const { data } = await api.get(`/orders/${orderId}/valid-triggers`);
+
+  return data;
 };

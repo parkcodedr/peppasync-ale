@@ -1,3 +1,5 @@
+import { TRIGGER_CONFIG } from "@/lib/orderTriggers";
+
 export interface OrdersResponse {
   items: OrderItem[];
   total: number;
@@ -92,13 +94,14 @@ export interface AuditEntry {
   createdAt: string;
 }
 
-export type ActionType = "APPROVE" | "REJECT" | "CANCEL" | null;
+export type ActionType =
+  (typeof ORDER_ACTIONS)[keyof typeof ORDER_ACTIONS] | null;
 
 export const ORDER_ACTIONS = {
   APPROVE: "APPROVE",
   REJECT: "REJECT",
   CANCEL: "CANCEL",
-};
+} as const;
 
 export interface PipelineState {
   state: string;
@@ -131,4 +134,11 @@ export interface BomItem {
   title: string;
   quantity: number;
   price: string;
+}
+
+
+export type TriggerKey = keyof typeof TRIGGER_CONFIG;
+
+export interface ValidTriggersResponse {
+  triggers: TriggerKey[];
 }

@@ -10,6 +10,7 @@ import {
   approveOrder,
   getPipelineSummary,
   exportOrdersCsv,
+  getValidTriggers,
 } from "@/services/orderService";
 import { PipelineSummary } from "@/types/order";
 import { mapPipelineSummary } from "@/lib/mapper/orderMapper";
@@ -131,8 +132,7 @@ export const useExportOrdersCsv = () => {
 
     onSuccess: ({ blob, headers }) => {
       const url = window.URL.createObjectURL(blob);
-      console.log({headers});
-      
+      console.log({ headers });
 
       const disposition = headers["content-disposition"];
       const filename =
@@ -149,5 +149,13 @@ export const useExportOrdersCsv = () => {
 
       window.URL.revokeObjectURL(url);
     },
+  });
+};
+
+export const useValidTriggers = (orderId?: string) => {
+  return useQuery({
+    queryKey: ["valid-triggers", orderId],
+    queryFn: () => getValidTriggers(orderId!),
+    enabled: !!orderId,
   });
 };
