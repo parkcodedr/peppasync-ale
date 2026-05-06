@@ -9,7 +9,7 @@ export interface SidebarItem {
 export const sidebarItems: SidebarItem[] = [
   {
     label: "Ops Pipeline",
-    href: "/ops-pipeline",
+    href: "/",
     icon: Layers,
   },
 ];
