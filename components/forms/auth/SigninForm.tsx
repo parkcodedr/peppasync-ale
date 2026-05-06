@@ -52,7 +52,7 @@ export default function SigninForm() {
           Login
         </h1>
         <p className="text-sm lg:text-lg text-gray-500 mb-6">
-          Provide your details to get login.
+          Provide your details to login.
         </p>
 
         {loginMutation.isError && (
@@ -61,13 +61,13 @@ export default function SigninForm() {
           </p>
         )}
 
-        <InputField name="email" label="Email Address" type="email" />
-        <PasswordField name="password" label="Password" />
+        <InputField name="email" label="Email Address" type="email" placeholder="Enter your email" />
+        <PasswordField name="password" label="Password" placeholder="Enter your password" />
 
         <div className="flex items-center justify-between">
           <Link
             href="/auth/forgot-password"
-            className="text-lg text-ancient font-bold"
+            className="text-sm text-ancient font-bold"
           >
             Forgot password?
           </Link>
@@ -77,9 +77,9 @@ export default function SigninForm() {
           {loginMutation.isPending ? <Spinner color="white" /> : "Login"}
         </Button>
 
-        <p className="text-lg text-gray-600 text-center lg:text-left">
+        <p className="text-sm text-gray-600 text-center lg:text-left">
           Don’t have an account?{" "}
-          <Link href="/auth/signup" className="text-ancient font-bold text-lg">
+          <Link href="/auth/signup" className="text-ancient font-bold text-sm">
             Sign up
           </Link>
         </p>

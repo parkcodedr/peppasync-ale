@@ -45,9 +45,7 @@ export const PasswordField = ({
             "transition-all duration-200",
             "focus:outline-none  focus:border-indigo-600",
             "disabled:bg-gray-100 disabled:text-gray-500",
-            error
-              ? "border-red-500  focus:border-red-500"
-              : "border-gray-300",
+            error ? "border-red-500  focus:border-red-500" : "border-gray-300",
             className,
           )}
         />
@@ -55,7 +53,7 @@ export const PasswordField = ({
         <button
           type="button"
           onClick={() => setShow((s) => !s)}
-          className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 transition"
+          className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 transition cursor-pointer"
         >
           {show ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>

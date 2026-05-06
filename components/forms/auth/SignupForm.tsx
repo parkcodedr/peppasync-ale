@@ -52,7 +52,7 @@ export default function SignUpForm() {
       const res = await registerMutation.mutateAsync(data);
       setAuthToken(res.tokens?.access_token);
       setRefreshToken(res?.tokens?.refresh_token);
-      router.push("/");
+      router.push("/onboarding");
     } catch (err: unknown) {
       console.error("Signup failed:", err);
     }
@@ -75,10 +75,23 @@ export default function SignUpForm() {
           </p>
         )}
 
-        <InputField name="full_name" label="Full Name" />
-        <InputField name="email" label="Email Address" type="email" />
-        <PasswordField name="password" label="Password" />
-        <PasswordField name="password_confirmation" label="Confirm Password" />
+        <InputField name="full_name" label="Full Name" placeholder="Fullname" />
+        <InputField
+          name="email"
+          label="Email Address"
+          type="email"
+          placeholder="Email"
+        />
+        <PasswordField
+          name="password"
+          label="Password"
+          placeholder="Password"
+        />
+        <PasswordField
+          name="password_confirmation"
+          label="Confirm Password"
+          placeholder="Confirm password"
+        />
 
         <Button className="w-full" disabled={registerMutation.isPending}>
           {registerMutation.isPending ? <Spinner color="black" /> : "Sign up"}

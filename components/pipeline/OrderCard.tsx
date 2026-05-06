@@ -1,5 +1,6 @@
 import { Order } from "@/lib/types";
 import StatusPill from "./StatusPill";
+import OrderActions from "./OrderActions";
 
 interface Props {
   order: Order;
@@ -42,6 +43,7 @@ export default function OrderCard({ order, onClick, clickable }: Props) {
           </span>
         </div>
       </div>
+       <OrderActions order={order} />
     </button>
   );
 }

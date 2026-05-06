@@ -26,15 +26,10 @@ export const InputField = ({
 
   return (
     <div className="w-full space-y-1.5">
-   
-      <label
-        htmlFor={name}
-        className="text-sm font-medium text-gray-700"
-      >
+      <label htmlFor={name} className="text-sm font-medium text-gray-700">
         {label}
       </label>
 
-      {/* Input */}
       <input
         id={name}
         {...register(name)}
@@ -45,14 +40,11 @@ export const InputField = ({
           "transition-all duration-200",
           "focus:outline-none  focus:border-indigo-600",
           "disabled:bg-gray-100 disabled:text-gray-500",
-          error
-            ? "border-red-500  focus:border-red-500"
-            : "border-gray-300",
-          className
+          error ? "border-red-500  focus:border-red-500" : "border-gray-300",
+          className,
         )}
       />
 
-      {/* Helper or Error */}
       {error ? (
         <p className="text-xs text-red-600">{error}</p>
       ) : helperText ? (

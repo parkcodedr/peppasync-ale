@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarItems } from "@/lib/sidebar";
 import clsx from "clsx";
+import { LogOut } from "lucide-react";
+import { useUserLogout } from "@/hooks/useUserLogout";
 
 interface Props {
   isOpen: boolean;
@@ -12,6 +14,7 @@ interface Props {
 
 export default function Sidebar({ isOpen, onClose }: Props) {
   const pathname = usePathname();
+  const { logout, isLoading } = useUserLogout();
 
   return (
     <>
@@ -24,20 +27,19 @@ export default function Sidebar({ isOpen, onClose }: Props) {
 
       <aside
         className={clsx(
-          "fixed top-0 bottom-0 left-0 w-56 bg-white border-r border-gray-200 z-50 transform transition-transform duration-200",
+          "fixed top-0 bottom-0 left-0 w-56 bg-white border-r border-gray-200 z-50 flex flex-col",
+          "transform transition-transform duration-200",
           "lg:translate-x-0 lg:z-30",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        
         <div className="h-14 flex items-center px-5 border-b border-gray-200 text-black">
           <span className="text-[15px] font-semibold tracking-tight">
             Peppasync
           </span>
         </div>
 
-        
-        <nav className="flex-1 px-3 pt-4 space-y-1">
+        <nav className="flex-1 px-3 pt-4 space-y-1 overflow-y-auto">
           {sidebarItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -60,6 +62,21 @@ export default function Sidebar({ isOpen, onClose }: Props) {
             );
           })}
         </nav>
+
+        <div className="px-3 py-3 border-t border-gray-200">
+          <button
+            onClick={logout}
+            disabled={isLoading}
+            className={clsx(
+              "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[13px] font-medium transition-colors",
+              "text-red-600 hover:bg-red-50",
+              "disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
+            )}
+          >
+            <LogOut className="h-4 w-4" strokeWidth={1.75} />
+            {isLoading ? "Logging out..." : "Logout"}
+          </button>
+        </div>
       </aside>
     </>
   );
