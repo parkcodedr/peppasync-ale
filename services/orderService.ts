@@ -101,7 +101,7 @@ export const exportOrdersCsv = async () => {
 export const getValidTriggers = async (
   orderId: string,
 ): Promise<ValidTriggersResponse> => {
-  const { data } = await api.get(`/orders/${orderId}/valid-triggers`);
+  const { data } = await api.get(`/orders/${orderId}/transitions`);
 
   return data;
 };

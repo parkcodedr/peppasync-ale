@@ -139,15 +139,18 @@ export const formatStateLabel = (state: string) =>
 export const getStateColor = (state: string) => {
   switch (state) {
     case "AWAITING_FINANCE":
-      return "bg-amber-500";
+      return "bg-amber-500 text-white";
     case "AWAITING_OPS":
-      return "bg-indigo-500";
+      return "bg-indigo-500 text-white";
+    case "DESIGN_FREEZE":
+      return "bg-purple-600 text-white";
     case "RELEASED_TO_ERP":
-      return "bg-emerald-500";
+      return "bg-emerald-500 text-white";
     case "CANCELLED":
-      return "bg-red-500";
+      return "bg-red-500 text-white";
+
     default:
-      return "bg-gray-400";
+      return "bg-slate-400 text-white";
   }
 };
 
