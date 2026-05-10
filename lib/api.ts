@@ -52,9 +52,11 @@ api.interceptors.response.use(
     
 
     const status = error.response?.status;
-    const errorMessage = error.response?.data?.detail;
+    const errorMessage = error.response?.data?.message || error.response?.data?.detail;
 
     const isAuthRoute = originalRequest.url?.includes("/auth");
+    console.log({errorMessage:error.response?.data});
+    
 
     const isTokenExpired =
       errorMessage === AUTH_ERROR.UNAUTHORIZE_MESSAGE ||
