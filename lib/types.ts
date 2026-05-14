@@ -20,15 +20,13 @@ export interface Order {
   customer: string;
   value: number;
   ageHours: number;
-
   status: OrderStatus;
   column: ColumnId;
-
   assignee: Assignee;
   auditTrail: AuditEntry[];
-
   config?: string;
   bom: BomItem[];
   erpQuote?: string;
-  shopify_order_id?:string
+  shopify_order_id?:string;
+  finance_ref?: string;
 }

@@ -71,7 +71,10 @@ export interface ValidateTriggersResponse {
 }
 
 export interface ApproveOrderPayload {
-  notes: string;
+  trigger: string;
+  finance_ref?: string;
+  reason?: string;
+  notes?: string;
 }
 
 export interface RejectOrderPayload {

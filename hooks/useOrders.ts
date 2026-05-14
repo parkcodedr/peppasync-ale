@@ -12,7 +12,7 @@ import {
   exportOrdersCsv,
   getValidTriggers,
 } from "@/services/orderService";
-import { PipelineSummary } from "@/types/order";
+import { ApproveOrderPayload, PipelineSummary } from "@/types/order";
 import { mapPipelineSummary } from "@/lib/mapper/orderMapper";
 import { getFilenameFromDisposition } from "@/lib/file";
 
@@ -62,8 +62,14 @@ export const useApproveOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ orderId, notes }: { orderId: string; notes: string }) =>
-      approveOrder(orderId, { notes }),
+    mutationFn: ({
+      orderId,
+      payload,
+    }: {
+      orderId: string;
+      payload: ApproveOrderPayload;
+    }) => approveOrder(orderId, payload),
+
     onSuccess: () => {
       invalidateOrders(queryClient);
     },

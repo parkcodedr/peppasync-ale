@@ -1,44 +1,54 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
-import { Order } from "@/lib/types";
-import { ORDER_TYPES } from "@/constants";
+import { useValidTriggers } from "@/hooks/useOrders";
+import {
+  OrderTrigger,
+  TRIGGER_CONFIG,
+  TriggerConfig,
+} from "@/lib/orderTriggers";
 
 interface Props {
-  order: Order;
+  orderId: string;
+  onAction: (config: TriggerConfig) => void;
 }
 
-export default function OrderActions({ order }: Props) {
-  const isFinanceCard = order.column === ORDER_TYPES.AWAITING_FINANCE;
-  const isDesignFreezeCard = order.column === ORDER_TYPES.RELEASED_TO_ERP;
+export default function OrderActions({ orderId, onAction }: Props) {
+  const { data, isLoading } = useValidTriggers(orderId);
+
+  if (!orderId) return null;
+
+  if (isLoading) {
+    return (
+      <div className="mt-3">
+        <div className="h-8 rounded-md bg-gray-200 animate-pulse" />
+      </div>
+    );
+  }
+
+  const triggers = (data?.triggers ?? []) as OrderTrigger[];
+
+  if (!triggers.length) return null;
+  const primaryTrigger = triggers[0];
+  const config = TRIGGER_CONFIG[primaryTrigger];
+
+  if (!config) return null;
+  const Icon = config.icon;
 
   const stopClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
-  //if (!isFinanceCard && !isDesignFreezeCard) return null;
-
   return (
-    <div className="mt-3 space-y-2" onClick={stopClick}>
-      {isFinanceCard && (
-        <button
-          type="button"
-          className="w-full h-8 bg-indigo-600 hover:bg-indigo-700 text-white text-[12px] font-semibold rounded-md flex items-center justify-center gap-1.5 transition-colors"
-        >
-          <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
-          Confirm Finance
-        </button>
-      )}
+    <div className="mt-3" onClick={stopClick}>
+      <button
+        type="button"
+        onClick={() => onAction(config)}
+        className={config?.className}
+      >
+        <Icon className="h-3 w-3" />
 
-      {isDesignFreezeCard && (
-        <button
-          type="button"
-          className="w-full h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-[12px] font-semibold rounded-md flex items-center justify-center gap-1.5 transition-colors"
-        >
-          <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
-          Approve Design Freeze
-        </button>
-      )}
+        {config.label}
+      </button>
     </div>
   );
 }

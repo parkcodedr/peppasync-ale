@@ -1,11 +1,16 @@
 "use client";
 
 import { useValidTriggers } from "@/hooks/useOrders";
-import { TRIGGER_CONFIG } from "@/lib/orderTriggers";
+
+import {
+  OrderTrigger,
+  TRIGGER_CONFIG,
+  TriggerConfig,
+} from "@/lib/orderTriggers";
 
 interface Props {
   orderId?: string;
-  onAction: (action: string) => void;
+  onAction: (config: TriggerConfig) => void;
 }
 
 export default function TriggerActions({ orderId, onAction }: Props) {
@@ -17,7 +22,7 @@ export default function TriggerActions({ orderId, onAction }: Props) {
     return (
       <div className="space-y-2">
         <div className="h-10 rounded-md bg-gray-200 animate-pulse" />
-        <div className="h-9 rounded-md bg-gray-200 animate-pulse" />
+        <div className="h-10 rounded-md bg-gray-200 animate-pulse" />
       </div>
     );
   }
@@ -33,12 +38,13 @@ export default function TriggerActions({ orderId, onAction }: Props) {
     );
   }
 
-  const triggers = data?.triggers ?? [];
+  const triggers = (data?.triggers ?? []) as OrderTrigger[];
 
   return (
     <div className="space-y-2">
       {triggers.map((trigger) => {
         const config = TRIGGER_CONFIG[trigger];
+
         if (!config) return null;
 
         const Icon = config.icon;
@@ -46,10 +52,11 @@ export default function TriggerActions({ orderId, onAction }: Props) {
         return (
           <button
             key={trigger}
-            onClick={() => onAction(config.action)}
+            onClick={() => onAction(config)}
             className={config.className}
           >
-            <Icon className="h-3.5 w-3.5" />
+            <Icon className="h-4 w-4" />
+
             {config.label}
           </button>
         );

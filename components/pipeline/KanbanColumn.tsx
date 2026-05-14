@@ -1,5 +1,6 @@
 import { Order } from "@/lib/types";
 import OrderCard from "./OrderCard";
+import { TriggerConfig } from "@/lib/orderTriggers";
 
 interface Column {
   id: string;
@@ -10,10 +11,18 @@ interface Column {
 interface Props {
   config: Column;
   orders: Order[];
+
   onCardClick: (order: Order) => void;
+
+  onAction: (order: Order, config: TriggerConfig) => void;
 }
 
-export default function KanbanColumn({ config, orders, onCardClick }: Props) {
+export default function KanbanColumn({
+  config,
+  orders,
+  onCardClick,
+  onAction,
+}: Props) {
   return (
     <div className="flex flex-col min-w-[300px] flex-1">
       <div className="flex items-center justify-between mb-3 px-1">
@@ -28,9 +37,7 @@ export default function KanbanColumn({ config, orders, onCardClick }: Props) {
         </div>
       </div>
 
-      <div
-        className={`h-0.5 rounded-full mb-3 ${config.dotColor} opacity-30`}
-      />
+      <div className={`h-0.5 rounded-full mb-3 ${config.dotColor}`} />
 
       <div className="space-y-2.5 flex-1">
         {orders.length === 0 && (
@@ -44,6 +51,7 @@ export default function KanbanColumn({ config, orders, onCardClick }: Props) {
             key={order.id}
             order={order}
             onClick={onCardClick}
+            onAction={onAction}
             clickable
           />
         ))}

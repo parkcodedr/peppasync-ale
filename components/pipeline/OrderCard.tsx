@@ -1,14 +1,28 @@
+"use client";
+
 import { Order } from "@/lib/types";
+
 import StatusPill from "./StatusPill";
 import OrderActions from "./OrderActions";
 
+import { TriggerConfig } from "@/lib/orderTriggers";
+
 interface Props {
   order: Order;
+
   onClick: (order: Order) => void;
+
+  onAction: (order: Order, config: TriggerConfig) => void;
+
   clickable?: boolean;
 }
 
-export default function OrderCard({ order, onClick, clickable }: Props) {
+export default function OrderCard({
+  order,
+  onClick,
+  onAction,
+  clickable = true,
+}: Props) {
   return (
     <button
       onClick={() => clickable && onClick(order)}
@@ -20,7 +34,7 @@ export default function OrderCard({ order, onClick, clickable }: Props) {
     >
       <div className="flex justify-between mb-2.5">
         <p className="font-mono text-[13px] font-semibold">
-          #{order?.shopify_order_id}
+          #{order.shopify_order_id}
         </p>
 
         <p className="text-[10px] h-max flex flex-col justify-center bg-slate-50 px-1.5 py-0.5 rounded border border-gray-200 shrink-0">
@@ -43,7 +57,11 @@ export default function OrderCard({ order, onClick, clickable }: Props) {
           </span>
         </div>
       </div>
-       <OrderActions order={order} />
+
+      <OrderActions
+        orderId={order.id}
+        onAction={(config) => onAction(order, config)}
+      />
     </button>
   );
 }

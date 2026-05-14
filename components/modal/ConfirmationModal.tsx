@@ -39,7 +39,7 @@ export default function ConfirmationModal({
 
   return (
     <Modal size="md" isOpen={isOpen} onClose={onClose}>
-      <div className="flex flex-col items-center text-center space-y-4 py-6 px-4">
+      <div className="flex flex-col items-center text-center space-y-4 py-3 px-3">
         {icon && <div>{icon}</div>}
 
         <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
@@ -49,8 +49,13 @@ export default function ConfirmationModal({
         )}
       </div>
 
-      <div className="flex justify-center gap-3 pb-5">
-        <Button type="button" variant="outline" onClick={onClose}>
+      <div className="flex justify-center gap-3 lg:gap-6 pb-5">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          className="lg:px-10"
+        >
           {cancelText}
         </Button>
 
@@ -59,6 +64,7 @@ export default function ConfirmationModal({
           disabled={isloading}
           variant={confirmVariant}
           onClick={onConfirm}
+          className="lg:px-10"
         >
           {isloading ? (
             <span className="px-6">
