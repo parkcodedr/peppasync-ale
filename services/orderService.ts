@@ -50,7 +50,7 @@ export const approveOrder = async (
   orderId: string,
   payload: ApproveOrderPayload,
 ) => {
-  const { data } = await api.post(`/orders/${orderId}/approve`, payload);
+  const { data } = await api.post(`/orders/${orderId}/transitions`, payload);
 
   return data;
 };
